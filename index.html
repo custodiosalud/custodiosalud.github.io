@@ -709,7 +709,9 @@ function calendario(){var ini=new Date(inicioMs()),fin=new Date(ini.getTime()+18
     $('calA').href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);$('calA').setAttribute('download','consulta.ics');$('calA').removeAttribute('target');}
   else $('calA').href=(D&&D.url?D.url:'')+'?ics=1&f='+S.dia+'&h='+S.hora;}
 function cuenta(){var c=$('cuenta');if(!c||S.pant!=='pago'||!S.dia||!S.hora)return;var ms=inicioMs()-7200000-Date.now();
-  if(ms<=0){c.textContent='El plazo de pago venció.';return;}var m=Math.floor(ms/60000),h=Math.floor(m/60);m=m%60;c.textContent='Te quedan '+(h?h+' h ':'')+m+' min para enviar tu pago.';}
+  if(ms<=0){c.textContent='El plazo de pago venció.';return;}var m=Math.floor(ms/60000),h=Math.floor(m/60),d=Math.floor(h/24),t;m=m%60;
+  if(d){var hh=h%24;t=d+(d===1?' día':' días')+(hh?' y '+hh+' h':'');}else t=(h?h+' h ':'')+m+' min';
+  c.textContent='Te quedan '+t+' para enviar tu pago.';}
 setInterval(cuenta,30000);
 function metodo(m){S.metodo=m;var hayQR=!!(D&&D.qr);if(hayQR){$('qrImg').src='data:image/png;base64,'+D.qr;$('qrSave').href=CFG.qr||(D.url+'?qr=1');}
   $('qrBox').style.display=(m==='Plin'&&hayQR)?'flex':'none';
